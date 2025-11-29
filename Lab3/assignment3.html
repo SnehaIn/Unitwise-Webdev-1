@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Portfolio Website</title>
+  <style>
+    :root {
+      --primary: #0057d8;
+      --accent: #ff7043;
+      --bg: #f4f7f8;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      margin: 0;
+      padding: 0;
+      background: var(--bg);
+      color: #333;
+      line-height: 1.6;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    a:hover, a:focus {
+      text-decoration: none;
+    }
+
+    h1, h2 {
+      color: var(--primary);
+    }
+
+    /* HEADER with Flexbox */
+    header {
+      background: #ffffff;
+      color: black;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 1.7rem;
+      letter-spacing: 1px;
+    }
+
+    header > div {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 0.7rem 1rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    nav ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: flex;
+      gap: 1rem;
+    }
+
+    nav ul li a {
+      font-weight: 600;
+      font-size: 1rem;
+      padding: 0.2rem 0.8rem;
+      border-radius: 999px;
+      transition: background 0.2s, color 0.2s, transform 0.2s;
+    }
+
+    nav ul li a:hover,
+    nav ul li a:focus {
+      background: var(--primary);
+      color: white;
+      outline: none;
+      transform: translateY(-1px);
+    }
+
+    /* Skip to main content link */
+    a[href="#main-content"] {
+      position: absolute;
+      top: -40px;
+      left: 10px;
+      background: var(--primary);
+      color: white;
+      padding: 8px 15px;
+      border-radius: 4px;
+      z-index: 100;
+      transition: top 0.3s ease;
+    }
+
+    a[href="#main-content"]:focus {
+      top: 10px;
+    }
+
+    main {
+      max-width: 900px;
+      margin: 40px auto;
+      padding: 0 20px 40px;
+    }
+
+    section {
+      margin-bottom: 40px;
+      background: #ffffff;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 1px 6px rgba(0,0,0,0.06);
+    }
+
+    section h2 {
+      border-bottom: 3px solid var(--primary);
+      padding-bottom: 10px;
+      margin-bottom: 20px;
+      font-size: 1.6rem;
+    }
+
+    /* HERO with Flexbox + animation */
+    #hero {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1.5rem;
+    }
+
+    #hero h2 {
+      font-size: 2rem;
+      margin-bottom: 10px;
+    }
+
+    #hero p {
+      font-size: 1.1rem;
+      color: #555;
+    }
+
+    #hero p span.role {
+      font-weight: 600;
+      color: var(--accent);
+      animation: roleColor 3s ease-in-out infinite alternate;
+    }
+
+    #about img {
+      border-radius: 50%;
+      display: block;
+      margin-bottom: 15px;
+      max-width: 180px;
+      height: auto;
+    }
+
+    #projects ul {
+      list-style: none;
+      padding-left: 0;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1rem;
+    }
+
+    #projects ul li {
+      margin-bottom: 0;
+      font-size: 1rem;
+      color: #444;
+      background: #f9fbff;
+      padding: 12px;
+      border-radius: 8px;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.05);
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    #projects ul li:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 4px 10px rgba(0,0,0,0.12);
+    }
+
+    /* Hide old table visually, keep for semantics if they want */
+    #skills table {
+      display: none;
+    }
+
+    /* New skills grid using CSS Grid */
+    #skills .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 1rem;
+    }
+
+    .card {
+      background: #f9fbff;
+      border-radius: 8px;
+      padding: 12px;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.05);
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .card h3 {
+      margin: 0 0 6px;
+      color: var(--primary);
+    }
+
+    .card span.tag {
+      display: inline-block;
+      margin-top: 6px;
+      padding: 2px 8px;
+      border-radius: 999px;
+      font-size: 0.75rem;
+      background: rgba(0,87,216,0.08);
+    }
+
+    .card:hover,
+    .card:focus-within {
+      transform: translateY(-3px);
+      box-shadow: 0 4px 10px rgba(0,0,0,0.12);
+    }
+
+    #contact form label {
+      font-weight: 600;
+      display: block;
+      margin-top: 15px;
+    }
+
+    #contact input[type="text"],
+    #contact input[type="email"],
+    #contact textarea {
+      width: 100%;
+      padding: 10px;
+      margin-top: 5px;
+      border: 1.6px solid #b4c4ff;
+      border-radius: 5px;
+      font-size: 1rem;
+      resize: vertical;
+      box-sizing: border-box;
+    }
+
+    #contact input:focus,
+    #contact textarea:focus {
+      border-color: var(--primary);
+      outline: none;
+    }
+
+    #contact button {
+      margin-top: 20px;
+      background-color: var(--primary);
+      color: white;
+      border: none;
+      padding: 12px 25px;
+      font-size: 1.05rem;
+      cursor: pointer;
+      border-radius: 999px;
+      transition: background-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    #contact button:hover,
+    #contact button:focus {
+      background-color: #003c97;
+      outline: none;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 10px rgba(0,0,0,0.25);
+    }
+
+    footer {
+      text-align: center;
+      padding: 15px 10px;
+      background-color: #f1f1f1;
+      color: #555;
+      font-size: 0.9rem;
+      border-top: 1px solid #ddd;
+      margin-top: 40px;
+    }
+
+    /* Keyframe animation */
+    @keyframes roleColor {
+      from { color: var(--accent); }
+      to   { color: var(--primary); }
+    }
+
+    /* Responsive design */
+    @media (max-width: 768px) {
+      header > div {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.4rem;
+      }
+
+      #hero {
+        flex-direction: column-reverse;
+        text-align: left;
+      }
+    }
+
+    @media (max-width: 600px) {
+      header h1 {
+        font-size: 1.5rem;
+      }
+      section h2 {
+        font-size: 1.3rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Skip to Main Content -->
+  <a href="#main-content">Skip to main content</a>
+
+  <!-- Header -->
+  <header>
+    <div>
+      <h1>Sneha Joshi</h1>
+      <nav>
+        <ul>
+          <li><a href="#about">About</a></li>
+          <li><a href="#projects">Projects</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main id="main-content">
+
+    <!-- Hero Section -->
+    <section id="hero">
+      <div>
+        <h2>Welcome to My Portfolio</h2>
+        <p>Hello! I am a <span class="role">web development student</span>. This is my personal portfolio website.</p>
+      </div>
+      <div class="hero-image"></div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about">
+      <h2>About Me</h2>
+      <img src="profile1.jpg" alt="Profile picture of Sneha Joshi" width="200">
+      <p>I am passionate about learning web development and building creative projects.</p>
+    </section>
+
+    <!-- Projects Section -->
+    <section id="projects">
+      <h2>My Projects</h2>
+      <ul>
+        <li><strong>Portfolio Website:</strong> A personal one-page website to showcase your bio, skills, and contact details.</li>
+        <li><strong>Blog Website:</strong> A simple blog layout that reads the 3 languages of Web development.</li>
+        <li><strong>Student Grade table:</strong> A table listing the marks of students in columns and rows.</li>
+        <li><strong>User Form:</strong> A form webpage with fields like name, email, and message for practicing form handling.</li>
+      </ul>
+    </section>
+
+    <!-- Skills Section -->
+    <section id="skills">
+      <h2>Technical Skills</h2>
+
+      <!-- original table kept but hidden by CSS -->
+      <table>
+        <tr>
+          <th>Skill</th>
+          <th>Level</th>
+        </tr>
+        <tr>
+          <td>HTML</td>
+          <td>Beginner</td>
+        </tr>
+        <tr>
+          <td>CSS</td>
+          <td>Beginner</td>
+        </tr>
+        <tr>
+          <td>JavaScript</td>
+          <td>Learning</td>
+        </tr>
+      </table>
+
+      <!-- new Grid cards for Lab 3 -->
+      <div class="skills-grid">
+        <div class="card">
+          <h3>HTML</h3>
+          <p>Semantic tags, forms, tables.</p>
+          <span class="tag">Beginner</span>
+        </div>
+        <div class="card">
+          <h3>CSS</h3>
+          <p>Layouts, colors, basic responsiveness.</p>
+          <span class="tag">Beginner</span>
+        </div>
+        <div class="card">
+          <h3>JavaScript</h3>
+          <p>Learning DOM and simple interactivity.</p>
+          <span class="tag">Learning</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact">
+      <h2>Contact Me</h2>
+      <form>
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name" placeholder="Enter your name" required>
+
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" placeholder="Enter your email" required>
+
+        <label for="message">Message:</label>
+        <textarea id="message" name="message" placeholder="Enter your message" required></textarea>
+
+        <button type="submit">Send</button>
+      </form>
+    </section>
+
+  </main>
+
+  <!-- Footer -->
+  <footer>
+    <p>&copy; 2025 Sneha Joshi. All rights reserved.</p>
+  </footer>
+
+</body>
+</html>
